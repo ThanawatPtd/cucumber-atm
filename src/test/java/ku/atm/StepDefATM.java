@@ -29,6 +29,11 @@ public class StepDefATM {
         bank.openAccount(new Customer(id, pin, balance));
     }
 
+    @Given("a customer with account id {int} and pin {int} and has {float} in bank account")
+    public void a_customer_with_id_and_has_in_bank_account(int id, int pin, float amount) {
+        bank.openAccount(new Customer(id, pin, amount));
+    }
+
     @When("I login to ATM with id {int} and pin {int}")
     public void i_login_to_ATM_with_id_and_pin(int id, int pin) {
         validLogin = atm.validateCustomer(id, pin);
@@ -70,4 +75,13 @@ public class StepDefATM {
                      bank.getCustomer(id).getAccount().getBalance());
     }
 
+    @When("I deposit {int} to account id 1")
+    public void when_deposit_150_to_account_id_1(int amount) throws NotEnoughBalanceException {
+        atm.deposit(amount);
+    }
+
+    @Then("I have 650 thb in bank account")
+    public void then_I_have_650_thb_in_bank_account() {
+        assertEquals(650, atm.getBalance());
+    }
 }
